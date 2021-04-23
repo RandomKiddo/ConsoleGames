@@ -1,7 +1,15 @@
 #include <stdio.h>
+#include <stdlib.h>
+
+#define DIFFICULTY_EASY 1
+#define DIFFICULTY_MEDIUM 2
+#define DIFFICULTY_HARD 3
 
 int gameIsWon(void);
 int spotNotAvailable(int number);
+int takeEasyTurn(void);
+int takeMediumTurn(void);
+int takeHardTurn(void);
 
 int board[3][3] = { {-1, -1, -1}, {-1, -1, -1}, {-1, -1, -1} };
 char str[49] = "1 | 2 | 3\n---------\n4 | 5 | 6\n---------\n7 | 8 | 9";
@@ -18,10 +26,27 @@ int main(void) {
 	(first == 'y') ? turn = 1 : turn = 0;
 	(first == 'y') ? userChar = 'X' : userChar = 'O';
 	(userChar == 'X') ? cpuChar = 'O' : cpuChar = 'X';
+	int difficulty;
+	do {
+		printf("%s", "\nWhich difficulty? 1: Easy, 2: Medium, 3: Hard: ");
+		scanf("%d", &difficulty);
+	} while (difficulty < 0 || difficulty > 3);
 	printf("\n%s", str);
 	while (gameIsWon() == 0) {
 		if (turn == 0) {
-			//CPU LOGIC
+			int number;
+			do {
+				if (difficulty == DIFFICULTY_EASY) {
+					number = takeEasyTurn();
+				} else if (difficulty == DIFFICULTY_MEDIUM) {
+					number = takeMediumTurn();
+				} else {
+					number = takeHardTurn();
+				}
+			} while (spotNotAvailable(number) == 1);
+			int index = indices[number - 1];
+			str[index] = cpuChar;
+			turn = 1;
 		} else {
 			int number;
 			do {
@@ -95,4 +120,18 @@ int spotNotAvailable(int number) {
 			break;
 	}
 	return status;
+}
+
+int takeEasyTurn(void) {
+	srand(time(NULL));
+	int value = (rand() % 9) + 1;
+	return value; 
+}
+
+int takeMediumTurn(void) {
+	return 0;
+}
+
+int takeHardTurn(void) {
+	return 0;
 }
