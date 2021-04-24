@@ -31,9 +31,9 @@ int main(void) {
 		printf("%s", "\nWould you like to go first? y/n: ");
 		scanf("%c", first);
 	} while (first != 'y' && first != 'n');
-	(first == 'y') ? turn = 1 : turn = 0;
-	(first == 'y') ? userChar = 'X' : userChar = 'O';
-	(userChar == 'X') ? cpuChar = 'O' : cpuChar = 'X';
+	(first == 'y') ? (turn = 1) : (turn = 0);
+	(first == 'y') ? (userChar = 'X') : (userChar = 'O');
+	(userChar == 'X') ? (cpuChar = 'O') : (cpuChar = 'X');
 	int difficulty;
 	do {
 		printf("%s", "\nWhich difficulty? 1: Easy, 2: Medium, 3: Hard: ");
@@ -109,31 +109,31 @@ int spotNotAvailable(int number) {
 	int status = 0; // status 0 available
 	switch (number) {
 		case 1:
-			(board[0][0] == -1) ? status = 0 : status = 1;
+			(board[0][0] == -1) ? (status = 0) : (status = 1);
 			break;
 		case 2:
-			(board[0][1] == -1) ? status = 0 : status = 1;
+			(board[0][1] == -1) ? (status = 0) : (status = 1);
 			break;
 		case 3:
-			(board[0][2] == -1) ? status = 0 : status = 1;
+			(board[0][2] == -1) ? (status = 0) : (status = 1);
 			break;
 		case 4:
-			(board[1][0] == -1) ? status = 0 : status = 1;
+			(board[1][0] == -1) ? (status = 0) : (status = 1);
 			break;
 		case 5:
-			(board[1][1] == -1) ? status = 0 : status = 1;
+			(board[1][1] == -1) ? (status = 0) : (status = 1);
 			break;
 		case 6:
-			(board[1][2] == -1) ? status = 0 : status = 1;
+			(board[1][2] == -1) ? (status = 0) : (status = 1);
 			break;
 		case 7:
-			(board[2][0] == -1) ? status = 0 : status = 1;
+			(board[2][0] == -1) ? (status = 0) : (status = 1);
 			break;
 		case 8:
-			(board[2][1] == -1) ? status = 0 : status = 1;
+			(board[2][1] == -1) ? (status = 0) : (status = 1);
 			break;
 		case 9:
-			(board[2][2] == -1) ? status = 0 : status = 1;
+			(board[2][2] == -1) ? (status = 0) : (status = 1);
 			break;
 		default:
 			// TILT: SHOULD NOT GET HERE
