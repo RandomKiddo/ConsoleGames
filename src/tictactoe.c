@@ -17,8 +17,11 @@ int userPlayedAnEdge(void);
 int turnBasedOnPlayedCorner(void);
 int edgesOpen(void);
 int cornersOpen(void);
+int userAboutToWin(void);
+int blockMove(void);
+void updateBoard(int number);
 
-int board[3][3] = { {-1, -1, -1}, {-1, -1, -1}, {-1, -1, -1} };
+int board[3][3] = { {-1, -1, -1}, {-1, -1, -1}, {-1, -1, -1} }; // 0 computer, 1 user
 char str[49] = "1 | 2 | 3\n---------\n4 | 5 | 6\n---------\n7 | 8 | 9";
 int indices = { 0, 4, 8, 20, 24, 28, 40, 44, 48 };
 char userChar, cpuChar;
@@ -55,6 +58,7 @@ int main(void) {
 			int index = indices[number - 1];
 			str[index] = cpuChar;
 			lastMove = number;
+			updateBoard(number);
 			turn = 1;
 		} else {
 			int number;
@@ -65,6 +69,7 @@ int main(void) {
 			int index = indices[number - 1];
 			str[index] = userChar;
 			lastMove = number;
+			updateBoard(number);
 			turn = 0;
 		}
 		printf("\n%s", str);
@@ -143,6 +148,41 @@ int spotNotAvailable(int number) {
 	return status;
 }
 
+void updateBoard(int number) {
+	switch (number) {
+		case 1:
+			(turn == 0) ? (board[0][0] = 0) : (board[0][0] = 1);
+			break;
+		case 2:
+			(turn == 0) ? (board[0][1] = 0) : (board[0][1] = 1);
+			break;
+		case 3:
+			(turn == 0) ? (board[0][2] = 0) : (board[0][2] = 1);
+			break;
+		case 4:
+			(turn == 0) ? (board[1][0] = 0) : (board[1][0] = 1);
+			break;
+		case 5:
+			(turn == 0) ? (board[1][1] = 0) : (board[1][1] = 1);
+			break;
+		case 6:
+			(turn == 0) ? (board[1][2] = 0) : (board[1][2] = 1);
+			break;
+		case 7:
+			(turn == 0) ? (board[2][0] = 0) : (board[2][0] = 1);
+			break;
+		case 8:
+			(turn == 0) ? (board[2][1] = 0) : (board[2][1] = 1);
+			break;
+		case 9:
+			(turn == 0) ? (board[2][2] = 0) : (board[2][2] = 1);
+			break;
+		default:
+			// TILT: SHOULD NOT GET HERE
+			break;
+	}
+}
+
 // Random Generated Turn; Likely To Be Bad
 int takeEasyTurn(void) {
 	srand(time(NULL));
@@ -154,6 +194,8 @@ int takeEasyTurn(void) {
 int takeMediumTurn(void) {
 	if (spotNotAvailable(5) == 0) {
 		return 5;
+	} else if (userAboutToWin() == 1) {
+		return blockMove();
 	} else if (userPlayedACorner() == 1) {
 		return turnBasedOnPlayedCorner();
 	} else if (userPlayedAnEdge() == 1) {
@@ -174,6 +216,41 @@ int userPlayedAnEdge(void) {
 		return 1;
 	}
 	return 0;
+}
+
+int userAboutToWin(void) {
+	// Horizontal Checks
+	for (int i = 0; i < 3; ++i) {
+		int check = 0;
+		for (int j = 0; j < 3; ++j) {
+			if (board[i][j] == 1) { ++check; }
+		}
+		if (check >= 2) {
+			return 1;
+		}
+	}
+	// Vertical Checks
+	for (int i = 0; i < 3; ++i) {
+		int check = 0;
+		for (int j = 0; j < 3; ++j) {
+			if (board[j][i] == 1) { ++check; }
+		}
+		if (check >= 2) {
+			return 1;
+		}
+	}
+	// Diagonal Checks
+	if ((board[0][0] == 1 && board[1][1] == 1) || (board[1][1] == 1 && board[2][2] == 1) || (board[0][0] == 1 && board[2][2] == 1)) {
+		return 1;
+	}
+	if ((board[0][2] == 1 && board[1][1] == 1) || (board[1][1] == 1 && board[2][0] == 1) || (board[0][2] == 1 && board[2][0] == 1)) {
+		return 1;
+	}
+	return 0;
+}
+
+int blockMove(void) {
+
 }
 
 int turnBasedOnPlayedCorner(void) {
